@@ -22,8 +22,7 @@
     </section>
     <section v-if="prediction">
       <div>
-        <h1>Your energy usage for this year should be about:</h1>
-        <span><b>{{this.prediction}}</b></span>
+        <h1>Your energy usage for this year should be about: <b>{{this.prediction}}</b></h1>
       </div>
     </section>
   </div>
