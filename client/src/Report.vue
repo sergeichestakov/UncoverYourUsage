@@ -2,8 +2,6 @@
 <div class="container-fluid main-container">
 <div class="fluid-row" id="header">
 
-
-
     <h1 class="title toc-ignore">Report</h1>
 
 </div>

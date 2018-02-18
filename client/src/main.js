@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap-vue/dist/bootstrap-vue.css"
 import VueResource from 'vue-resource'
 import VueRouter from 'vue-router'
-import Model from './Model.vue'
+import Report from './Report.vue'
 import Landing from './Landing.vue'
 
 Vue.use(BootstrapVue)
@@ -15,7 +15,7 @@ Vue.use(VueRouter)
 const router = new VueRouter({
   routes: [
     {path: '/', component: Landing},
-    {path: '/model', component: Model}
+    {path: '/report', component: Report}
   ],
   mode: 'history'
 })

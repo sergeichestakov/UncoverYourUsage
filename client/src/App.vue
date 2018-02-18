@@ -15,7 +15,7 @@
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/model">Science</router-link>
+              <a class="nav-link" href="/report">Science</a>
             </li>
           </ul>
         </b-collapse>
