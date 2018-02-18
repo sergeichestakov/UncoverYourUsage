@@ -6,28 +6,51 @@ import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.wrappers.scikit_learn import KerasClassifier
-from sklearn import preprocessing
 
-energy_data = os.path.abspath('../data/recs2009_public.csv')
+energy_data = './data/recs2009_public.csv'
 columns = 'columns.txt'
 
 INPUT = [
-'TOTCSQFT',
-'ACROOMS',
-'BEDROOMS',
-'WASHLOAD',
-'USECENAC',
 'NCOMBATH',
 'TYPEHUQ',
-'TEMPHOME',
-'CENACHP',
-'TEMPNITEAC',
-'AGECDRYER',
+'NUMFLRS',
+'ORIG1FAM',
+'WALLTYPE',
+'BEDROOMS',
+'CONVERSION',
+'LOOKLIKE',
+'REGIONC',
+'DIVISION',
+'REPORTABLE_DOMAIN',
+'HDD30YR',
+'BASEFIN',
+'PCTBSTHT',
+'TOTROOMS',
+'CRAWL',
+'CONCRETE',
+'NWEIGHT',
+'HDD65',
+'CDD65',
+'BASEHEAT',
+'BASEHT2',
+'OCCUPYYRANGE',
+'CDD30YR',
+'Climate_Region_Pub',
+'AIA_Zone',
+'KOWNRENT',
+'CONDCOOP',
+'YEARMADE',
+'YEARMADERANGE',
+'TYPEHUQ4',
+'NHAFBATH',
+'CELLAR',
+'OTHROOMS',
+'FINBASERMS',
+'NUMAPTS',
+'STUDIO',
 'NAPTFLRS',
-'SWIMPOOL',
-'NUMCFAN',
-'MAINTAC',
-'COOLTYPE'
+'STORIES',
+'ROOFTYPE',
 ]
 
 #INPUT = ['YEARMADE', 'BEDROOMS', 'SIZRFRI1', 'TVCOLOR', 'TEMPHOME'] #Input Vars
@@ -59,8 +82,10 @@ def denormalize(original, target):
 def createModel(optimizer='sgd'):
     model = Sequential()
 
-    model.add(Dense(7, input_dim=16, activation='relu'))
-    model.add(Dropout(0.2))
+    model.add(Dense(40, input_dim=40, activation='relu'))
+    model.add(Dense(20))
+    model.add(Dense(10, activation='softmax'))
+    model.add(Dense(3))
     model.add(Dense(1, activation='sigmoid'))
 
     model.compile(loss='mean_squared_error', optimizer=optimizer)
@@ -68,15 +93,15 @@ def createModel(optimizer='sgd'):
     return model
 
 #Normalize data
-trainXScaled = preprocessing.normalize(trainX)
-trainYScaled = preprocessing.normalize(trainY)
+trainXScaled = normalize(trainX)
+trainYScaled = normalize(trainY)
 
-testXScaled = preprocessing.normalize(testX)
-testYScaled = preprocessing.normalize(testY)
+testXScaled = normalize(testX)
+testYScaled = normalize(testY)
 
 #Initialize and train model
 model = createModel()
-model.fit(trainXScaled, trainYScaled, batch_size=2, epochs=10, verbose=1)
+model.fit(trainXScaled, trainYScaled, batch_size=100, epochs=10, verbose=1)
 
 #Predict and output results
 results = model.predict(testXScaled, verbose=1)
@@ -86,6 +111,8 @@ for index in range(length):
     output = testY.values[index][0]
     prediction = denormalize(testY, results[index]).item()
     sum += abs(output - prediction)
+    print('OUTPUT: ', output)
+    print('PREDICTION: ', prediction, '\n')
 
 print('Average Error: ', sum / length)
 print(model.summary())
