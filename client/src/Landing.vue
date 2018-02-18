@@ -163,7 +163,7 @@
     methods: {
       submit(){
         console.log(this.formInfo);
-        this.$http.post("/api/predict", this.formInfo).then(result => {
+        this.$http.post("/api/predict", {values: Object.values(this.formInfo).map(value => value.data)}).then(result => {
           this.loading = false;
           this.error = null;
         }, error => {

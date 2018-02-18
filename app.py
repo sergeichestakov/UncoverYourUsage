@@ -1,5 +1,8 @@
-from flask import Flask, request, send_from_directory
+from flask import Flask, request, send_from_directory, jsonify
 import os
+import pandas as pd
+import numpy as np
+
 
 from model.model import EnergyModel
 
@@ -19,8 +22,12 @@ def static_file(path):
 @app.route('/predict', methods=['POST'])
 def predict():
     print("Predicting household energy usage!")
-    parameters = request.form['parameters']
-    return model.predict(parameters)
+    req = request.get_json(force=True)
+    parameters = pd.DataFrame.from_dict(req, orient="index")
+    answer = model.predict(parameters)
+    print(answer)
+    print(type(answer))
+    return jsonify(answer)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
