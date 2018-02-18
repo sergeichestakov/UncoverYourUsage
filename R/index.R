@@ -67,16 +67,13 @@ for (variable in names(data)) {
     
     print(paste("MSE:", regressData$mse))
     
-    # regression line plot
-    plot(x = regressData$x, y = regressData$y, xlab = regressData$variable, ylab = "KWH")
-    if (!regressData$isFactor) {
-        abline(regressData$lm, col = "blue")
-    }
+    # regression line plot plot(x = regressData$x, y = regressData$y, xlab =
+    # regressData$variable, ylab = 'KWH') if (!regressData$isFactor) {
+    # abline(regressData$lm, col = 'blue') }
     
-    # residual and normal probability plots
-    plot(x = regressData$fitted, y = regressData$resid, xlab = "Fitted Values", ylab = "Residuals")
-    qqnorm(regressData$resid)
-    qqline(regressData$resid)
+    # residual and normal probability plots plot(x = regressData$fitted, y =
+    # regressData$resid, xlab = 'Fitted Values', ylab = 'Residuals')
+    # qqnorm(regressData$resid) qqline(regressData$resid)
     
     if (!is.null(regressData$rsquared)) {
         # add to ranking of r-squared values
