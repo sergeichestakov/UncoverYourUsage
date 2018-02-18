@@ -11,8 +11,11 @@ model = EnergyModel()
 model.output()
 @app.route('/')
 def home():
-    print(os.path.join(app.root_path, 'client'))
     return send_from_directory(os.path.join(app.root_path, 'client'), 'index.html')
+
+@app.route('/report')
+def report():
+    return send_from_directory(os.path.join(app.root_path, 'client'), 'report.html')
 
 @app.route('/<path:path>')
 def static_file(path):
