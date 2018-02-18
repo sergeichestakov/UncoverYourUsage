@@ -13,46 +13,22 @@ class EnergyModel:
     columns = 'columns.txt'
 
     INPUT = [
+    'TOTCSQFT',
+    'ACROOMS',
+    'BEDROOMS',
+    'WASHLOAD',
+    'USECENAC',
     'NCOMBATH',
     'TYPEHUQ',
-    'NUMFLRS',
-    'ORIG1FAM',
-    'WALLTYPE',
-    'BEDROOMS',
-    'CONVERSION',
-    'LOOKLIKE',
-    'REGIONC',
-    'DIVISION',
-    'REPORTABLE_DOMAIN',
-    'HDD30YR',
-    'BASEFIN',
-    'PCTBSTHT',
-    'TOTROOMS',
-    'CRAWL',
-    'CONCRETE',
-    'NWEIGHT',
-    'HDD65',
-    'CDD65',
-    'BASEHEAT',
-    'BASEHT2',
-    'OCCUPYYRANGE',
-    'CDD30YR',
-    'Climate_Region_Pub',
-    'AIA_Zone',
-    'KOWNRENT',
-    'CONDCOOP',
-    'YEARMADE',
-    'YEARMADERANGE',
-    'TYPEHUQ4',
-    'NHAFBATH',
-    'CELLAR',
-    'OTHROOMS',
-    'FINBASERMS',
-    'NUMAPTS',
-    'STUDIO',
+    'TEMPHOME',
+    'CENACHP',
+    'TEMPNITEAC',
+    'AGECDRYER',
     'NAPTFLRS',
-    'STORIES',
-    'ROOFTYPE',
+    'SWIMPOOL',
+    'NUMCFAN',
+    'MAINTAC',
+    'COOLTYPE',
     ]
 
     OUTPUT = ['KWH'] #Total Energy consumed in KWH
@@ -124,7 +100,7 @@ class EnergyModel:
     def createModel(self, optimizer='sgd'):
         model = Sequential()
 
-        model.add(Dense(40, input_dim=40, activation='relu'))
+        model.add(Dense(16, input_dim=len(EnergyModel.INPUT), activation='relu'))
         model.add(Dense(20))
         model.add(Dense(10, activation='softmax'))
         model.add(Dense(3))
