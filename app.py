@@ -21,7 +21,7 @@ def report():
 def static_file(path):
     return send_from_directory(os.path.join(app.root_path, 'client'), path)
 
-@app.route('/predict', methods=['POST'])
+@app.route('/api/predict', methods=['POST'])
 def predict():
     print("Predicting household energy usage!")
     req = request.get_json(force=True)
