@@ -126,9 +126,11 @@ class EnergyModel:
             res = (rawpoints - mins) / rng
         else:
             maxs = EnergyModel.globalMax
-            indices = maxs == 0
-            maxs[indices] = 1
-            res = rawpoints / maxs
+            mins = EnergyModel.globalMin
+            rng = maxs - mins
+            indices = rng == 0
+            rng[indices] = 1
+            res = (rawpoints - mins) / rng
         if save is True:
             EnergyModel.globalMax = maxs
             EnergyModel.globalMin = mins
