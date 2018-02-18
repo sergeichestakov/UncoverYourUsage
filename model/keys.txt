@@ -1,0 +1,16 @@
+TOTCSQFT Total Cooled Square footage
+ACROOMS number of rooms cooled
+BEDROOMS
+WASHLOAD frequency clothes washer used per week
+USECENAC Frequency central air conditioner used in summer
+NCOMBATH Number of full bathrooms
+TYPEHUQ Type of housing unit
+TEMPHOME Temperature when someone is home during the day
+CENACHP Central air conditioner is a heat pump?
+TEMPNITEAC Temperature at night(summer)
+AGECDRYER age of clothes dryer
+NAPTFLRS number of apartment floors
+SWIMPOOL swimming pool
+NUMCFAN number of ceiling fans used
+MAINTAC maintainence performed on air conditioner
+COOLTYPE type of air conditioning equipment used
