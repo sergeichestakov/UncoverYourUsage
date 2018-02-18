@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
         <a class="navbar-brand" href="#">Energy Saver</a>
@@ -10,35 +10,18 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Home
+              <router-link class="nav-link" to="/">My Energy
                 <span class="sr-only">(current)</span>
-              </a>
+              </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">My Energy</a>
+              <router-link class="nav-link" to="/model">Science</router-link>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-    <b-jumbotron header="Take Back Control of Your Energy" lead="Analyze your energy usage and find ways to save.">
-    </b-jumbotron>
-    <section class="py-5">
-      <div class="container">
-        <h1>Describe your household:</h1>
-        <b-form>
-          <b-form-row>
-            <b-col :key="id" v-for="(form, id) in formInfo" cols="4">
-              <b-form-group :label="form.label" :label-for="id">
-                <b-form-input :id="id" :type="form.type" v-model="form.data"/>
-              </b-form-group>
-            </b-col>
-          </b-form-row>
-        </b-form>
-      </div>
-    </section>
-    <section v-if="prediction">
-    </section>
+    <router-view></router-view>
     <!-- Footer -->
     <footer class="py-5 bg-dark">
       <div class="container">
@@ -51,33 +34,7 @@
 
 <script>
   export default {
-    name: 'app',
-    data() {
-      return {
-        msg: 'Welcome to Your Vue.js App',
-        formInfo: {
-          n_people: {
-            label: "Number of people in your household:",
-            data: 0,
-            type: "number"
-          },
-          n_heaters: {
-            label: "Number of heaters:",
-            data: 0,
-            type: "number"
-          }
-        }
-      }
-    },
-    methods: {
-      submit(){
-        this.$http.post("/api/predict", this.formInfo).then(result => {
-          
-        }, error => {
-          console.error(error);
-        });
-      }
-    }
+    name: 'app'
   }
 
 </script>
