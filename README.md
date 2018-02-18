@@ -11,7 +11,7 @@ cd energy-analysis
 
 Step 2:
 ```bash
-pip install virtualenv
+pip3 install virtualenv
 virtualenv venv
 venv\Scripts\activate (Windows)
 . venv/bin/activate (Others)
@@ -21,7 +21,7 @@ venv\Scripts\activate (Windows)
 
 Step 3:
 ```bash
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 Step 4:

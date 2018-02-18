@@ -1,8 +1,24 @@
 ---
-title: "Report"
-output: html_document
+title: "Principal Component and Regression Analysis of Features Against Household Energy Usage During the Year 2009"
+output:
+  rmarkdown::html_document:
+    theme: spacelab
+    highlight: pygments
 ---
 
-```{r echo=FALSE}
+---
+
+The Residential Energy Consumption Survey is a national survey that collects energy-related data for housing units. Data was collected from 12,083 households selected at random, and contains hundreds of factors as well as associated measures of energy usage. A statistical analysis of this data follows:
+
+## Principal Component Analysis
+### An investigation of independence among parameters
+
+![](sparse.png)
+
+![](component.png)
+
+## Regression Analysis
+### An investigation of correlation among parameters
+```{r echo=FALSE, comment=NA}
 source('index.R')
 ```

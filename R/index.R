@@ -12,16 +12,18 @@ packages(c("formatR", "car"))  # require packages
 
 library(formatR)  # load formatting library
 
-tidy_dir(path = ".", recursive = TRUE)  # format files
+# tidy_dir(path = ".", recursive = TRUE)  # format files
 
 data <- read.csv("../data/recs2009_public.csv", header = TRUE)
 correlationRanking <- data.frame(name = character(), rsquared = double(), lambda = double(), 
     isFactor = logical(), stringsAsFactors = FALSE)
 
+i <- 0
 # iterate over all variables
 for (variable in names(data)) {
     print(paste("Analysis of Explanatory Variable:", variable))
     regressData <- list()
+    variable <- "TYPEHUQ"
     regressData$variable = variable
     regressData$x <- data[[regressData$variable]]
     regressData$isFactor <- FALSE
@@ -66,14 +68,19 @@ for (variable in names(data)) {
     print(summary(regressData$resid))
     
     print(paste("MSE:", regressData$mse))
+
+    color <- "steelblue3"
     
-    # regression line plot plot(x = regressData$x, y = regressData$y, xlab =
-    # regressData$variable, ylab = 'KWH') if (!regressData$isFactor) {
-    # abline(regressData$lm, col = 'blue') }
+    # regression line plot
+    plot(x = regressData$x, y = regressData$y, xlab = regressData$variable, ylab = 'KWH', main="Regression Function", col=color)
+    if (!regressData$isFactor) {
+        abline(regressData$lm, col=color)
+    }
     
-    # residual and normal probability plots plot(x = regressData$fitted, y =
-    # regressData$resid, xlab = 'Fitted Values', ylab = 'Residuals')
-    # qqnorm(regressData$resid) qqline(regressData$resid)
+    # residual and normal probability plots
+    plot(x = regressData$fitted, y = regressData$resid, xlab = 'Fitted Values', ylab = 'Residuals', main="Residual Plot", col=color)
+    qqnorm(regressData$resid, main="Normal Probability Plot", col=color)
+    qqline(regressData$resid, col=color)
     
     if (!is.null(regressData$rsquared)) {
         # add to ranking of r-squared values
@@ -82,6 +89,11 @@ for (variable in names(data)) {
         correlationRanking <- correlationRanking[order(correlationRanking$rsquared, 
             decreasing = TRUE), ]
     }
+    
+    i <- i + 1
+    # if (i > 10) {
+    #     break
+    # }
 }
 
 print("Correlation Between Explanatory Variables and Response:")
