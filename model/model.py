@@ -11,7 +11,6 @@ class EnergyModel:
 
     energy_data = os.path.abspath(os.path.curdir) + '/data/recs2009_public.csv'
     columns = 'columns.txt'
-    print(energy_data)
     INPUT = [
     'TOTCSQFT',
     'ACROOMS',
@@ -23,8 +22,6 @@ class EnergyModel:
     'TEMPHOME',
     'CENACHP',
     'TEMPNITEAC',
-    'AGECDRYER',
-    'NAPTFLRS',
     'SWIMPOOL',
     'NUMCFAN',
     'MAINTAC',
@@ -46,23 +43,33 @@ class EnergyModel:
         self.trainY = df[EnergyModel.OUTPUT][0:EnergyModel.TRAIN_ENTRIES]
         self.testY = df[EnergyModel.OUTPUT][EnergyModel.TRAIN_ENTRIES:]
 
-        #Reset nonzero values
-        self.trainX[self.trainX < 0] = 0
-        self.trainY[self.trainY < 0] = 0
-
-        self.testX[self.testX < 0] = 0
-        self.testY[self.testY < 0] = 0
+        self.resetOutliers()
 
         #Normalize data
         self.trainXScaled = self.normalize(self.trainX)
         self.trainYScaled = self.normalize(self.trainY)
 
         self.testXScaled = self.normalize(self.testX)
-        self.testYScaled = self.normalize(self.testY)
 
         #Initialize and train model
         model = self.createModel()
-        model.fit(self.trainXScaled, self.trainYScaled, batch_size=100, epochs=10, verbose=1)
+        model.fit(self.trainXScaled, self.trainYScaled, batch_size=15, epochs=50, verbose=1)
+
+        return model
+
+
+    #Construct Neural Network model
+    def createModel(self, optimizer='sgd'):
+        model = Sequential()
+
+        model.add(Dense(32, input_dim=len(EnergyModel.INPUT), activation='relu'))
+        model.add(Dense(16))
+        model.add(Dense(8, activation='softmax'))
+        model.add(Dense(5))
+        model.add(Dense(1, activation='sigmoid'))
+
+        model.compile(loss='mean_squared_error', optimizer=optimizer)
+
         return model
 
     #Predicts energy consumption based on user submitted input
@@ -88,17 +95,24 @@ class EnergyModel:
         print('Average Error: ', sum / length)
         print(self.model.summary())
 
+    def resetOutliers(self):
+        #Reset nonzero values and outliers
+        self.trainX[self.trainX < 0] = 0
+        self.trainY[self.trainY < 0] = 0
+
+        self.testX[self.testX < 0] = 0
+        self.testY[self.testY < 0] = 0
+
+        self.trainY[self.trainY > 20000] = 20000
+        self.testY[self.testY > 20000] = 20000
+
     #Normalize all values in array to between 0 and 1
     def normalize(self,rawpoints, high=1.0, low=0.0):
-
-        nparray = rawpoints.values
-        print(len(nparray))
-        print(nparray)
-
         mins = np.min(rawpoints, axis=0)
         maxs = np.max(rawpoints, axis=0)
         rng = maxs - mins
-        return (rawpoints - mins) / (maxs - mins)
+        res = (rawpoints - mins) / (maxs - mins)
+        return res
 
     #Return normalized values back to original
     def denormalize(self, original, target):
@@ -106,20 +120,6 @@ class EnergyModel:
         maxs = np.max(original, axis=0)
 
         return target * (maxs - mins) + mins
-
-    #Construct Neural Network model
-    def createModel(self, optimizer='sgd'):
-        model = Sequential()
-
-        model.add(Dense(32, input_dim=len(EnergyModel.INPUT), activation='relu'))
-        model.add(Dense(16))
-        model.add(Dense(8, activation='softmax'))
-        model.add(Dense(5))
-        model.add(Dense(1, activation='sigmoid'))
-
-        model.compile(loss='mean_squared_error', optimizer=optimizer)
-
-        return model
 
 if __name__ == '__main__':
     model = EnergyModel()
