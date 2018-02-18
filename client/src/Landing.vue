@@ -26,6 +26,7 @@
 </template>
 
 <script>
+  import FirstDataSet from './set-1.json'
   import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
   export default {
     name: 'landing',
