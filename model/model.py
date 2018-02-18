@@ -89,8 +89,8 @@ class EnergyModel:
             output = self.testY.values[index][0]
             prediction = self.denormalize(self.testY, results[index]).item()
             sum += abs(output - prediction)
-            print('OUTPUT: ', output)
-            print('PREDICTION: ', prediction, '\n')
+            #print('OUTPUT: ', output)
+            #print('PREDICTION: ', prediction, '\n')
 
         print('Average Error: ', sum / length)
         print(self.model.summary())

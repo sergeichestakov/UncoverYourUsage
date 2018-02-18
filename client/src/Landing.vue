@@ -162,8 +162,10 @@
     },
     methods: {
       submit(){
-        this.$http.post("/predict", this.formInfo).then(result => {
+        console.log(this.formInfo);
+        this.$http.post("/api/predict", {values: Object.values(this.formInfo).map(value => value.data)}).then(result => {
           this.loading = false;
+          this.error = null;
         }, error => {
           console.error(error);
           this.error = error;
