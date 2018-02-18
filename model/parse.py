@@ -7,7 +7,7 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.wrappers.scikit_learn import KerasClassifier
 
-energy_data = './data/recs2009_public.csv'
+energy_data = '../data/recs2009_public.csv'
 columns = 'columns.txt'
 
 INPUT = [
