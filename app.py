@@ -8,7 +8,7 @@ from model.model import EnergyModel
 
 app = Flask(__name__, static_url_path='/client')
 model = EnergyModel()
-
+model.output()
 @app.route('/')
 def home():
     print(os.path.join(app.root_path, 'client'))
@@ -44,10 +44,7 @@ def predict():
     file.close()
     csver = open("dump.csv", "r")
     parameters = pd.read_csv(csver)
-    print(parameters)
     answer = model.predict(parameters)
-    print(answer)
-    print(type(answer))
     return jsonify(answer)
 
 if __name__ == '__main__':

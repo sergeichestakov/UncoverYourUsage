@@ -22,7 +22,7 @@
     </section>
     <section v-if="prediction">
       <div class="prediction">
-        <h1>Your energy usage for this year should be about: <b>{{this.prediction}}</b></h1>
+        <h1>Your energy usage for this year should be about: <b>{{this.prediction}}</b> kWh</h1>
       </div>
     </section>
   </div>
@@ -151,7 +151,7 @@
         this.$http.post("/api/predict", Object.values(this.formInfo).map(value => value.data)).then(result => {
           this.loading = false;
           this.error = null;
-          this.prediction = result.body;
+          this.prediction = Math.trunc(result.body);
         }, error => {
           console.error(error);
           this.error = error;

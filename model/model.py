@@ -27,7 +27,11 @@ class EnergyModel:
     'MAINTAC',
     'COOLTYPE',
     ]
-
+    globalMax = 0
+    globalMin = 0
+    globalTestMax = 0
+    globalTestMin = 0
+    training = True
     OUTPUT = ['KWH'] #Total Energy consumed in KWH
     TRAIN_ENTRIES = 9000 #Remainder is test (12083 Total)
 
@@ -46,15 +50,15 @@ class EnergyModel:
         self.resetOutliers()
 
         #Normalize data
-        self.trainXScaled = self.normalize(self.trainX)
-        self.trainYScaled = self.normalize(self.trainY)
+        self.trainXScaled = self.normalize(self.trainX, training=True, save=True)
+        training = False
+        self.trainYScaled = self.normalize(self.trainY, training=True)
 
-        self.testXScaled = self.normalize(self.testX)
+        self.testXScaled = self.normalize(self.testX, training=True)
 
         #Initialize and train model
         model = self.createModel()
         model.fit(self.trainXScaled, self.trainYScaled, batch_size=15, epochs=5, verbose=1)
-
         return model
 
 
@@ -79,7 +83,8 @@ class EnergyModel:
         #scaledInput = inputVector
         print(scaledInput)
         results = self.model.predict(scaledInput, verbose=1)
-
+        val = self.denormalize(self.testY, results[0])
+        print(val)
         prediction = self.denormalize(self.testY, results[0]).item()
         return prediction
 
@@ -90,7 +95,7 @@ class EnergyModel:
         sum = 0
         for index in range(length):
             output = self.testY.values[index][0]
-            prediction = self.denormalize(self.testY, results[index]).item()
+            prediction = self.denormalize(self.testY, results[index], training=True, test=True).item()
             sum += abs(output - prediction)
             #print('OUTPUT: ', output)
             #print('PREDICTION: ', prediction, '\n')
@@ -110,23 +115,35 @@ class EnergyModel:
         self.testY[self.testY > 20000] = 20000
 
     #Normalize all values in array to between 0 and 1
-    def normalize(self,rawpoints, high=1.0, low=0.0):
-        print(rawpoints)
-        mins = np.min(rawpoints, axis=0)
-        maxs = np.max(rawpoints, axis=0)
-        rng = maxs - mins
-        print(rng)
-        indices = rng == 0
-        rng[indices] = 1
-        res = (rawpoints - mins) / rng
+    def normalize(self,rawpoints, high=1.0, low=0.0, save=False, test=False, training=False):
+        if training is True:
+            mins = np.min(rawpoints, axis=0)
+            maxs = np.max(rawpoints, axis=0)
+            rng = maxs - mins
+            indices = rng == 0
+            rng[indices] = 1
+            res = (rawpoints - mins) / rng
+        else:
+            maxs = EnergyModel.globalMax
+            indices = maxs == 0
+            maxs[indices] = 1
+            res = rawpoints / maxs
+        if save is True:
+            EnergyModel.globalMax = maxs
+            EnergyModel.globalMin = mins
         return res
 
     #Return normalized values back to original
-    def denormalize(self, original, target):
-        mins = np.min(original, axis=0)
-        maxs = np.max(original, axis=0)
-
-        return target * (maxs - mins) + mins
+    def denormalize(self, original, target, training=False, test=False):
+        if training is True:
+            mins = np.min(original, axis=0)
+            maxs = np.max(original, axis=0)
+            if test is True:
+                EnergyModel.globalTestMax = maxs
+                EnergyModel.globalTestMin = mins
+            return target * (maxs - mins) + mins
+        else:
+            return target * (EnergyModel.globalTestMax - EnergyModel.globalTestMin) + EnergyModel.globalTestMin
 
 if __name__ == '__main__':
     model = EnergyModel()
