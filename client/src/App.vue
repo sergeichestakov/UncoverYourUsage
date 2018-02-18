@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar type="dark" toggleable="lg" class="bg-dark">
+    <b-navbar type="dark" toggleable="md" class="bg-dark">
       <div class="container">
         <a class="navbar-brand" href="#">Energy Saver</a>
         <b-navbar-toggle target="#navbarResponsive" aria-controls="navbarResponsive"
