@@ -114,12 +114,10 @@ class EnergyModel:
         print(rawpoints)
         mins = np.min(rawpoints, axis=0)
         maxs = np.max(rawpoints, axis=0)
-        print(mins[1])
-
-        print(maxs[1])
         rng = maxs - mins
-        if rng is 0:
-            rng = 1
+        print(rng)
+        indices = rng == 0
+        rng[indices] = 1
         res = (rawpoints - mins) / rng
         return res
 

@@ -2,7 +2,7 @@ from flask import Flask, request, send_from_directory, jsonify
 import os
 import pandas as pd
 import numpy as np
-
+import csv
 
 from model.model import EnergyModel
 
@@ -22,11 +22,28 @@ def static_file(path):
 def predict():
     print("Predicting household energy usage!")
     req = request.get_json(force=True)
-    print(type(req))
-    print(req)
-    val = np.array(req)
-    value = [[req[i]] for i in range(len(req))]
-    parameters = pd.DataFrame([req], columns=list("ABCDEFGHIJKLMN"))
+    file = open("dump.csv", "w")
+    writer = csv.writer(file)
+    writer.writerow([
+    'TOTCSQFT',
+    'ACROOMS',
+    'BEDROOMS',
+    'WASHLOAD',
+    'USECENAC',
+    'NCOMBATH',
+    'TYPEHUQ',
+    'TEMPHOME',
+    'CENACHP',
+    'TEMPNITEAC',
+    'SWIMPOOL',
+    'NUMCFAN',
+    'MAINTAC',
+    'COOLTYPE',
+    ])
+    writer.writerow(req)
+    file.close()
+    csver = open("dump.csv", "r")
+    parameters = pd.read_csv(csver)
     print(parameters)
     answer = model.predict(parameters)
     print(answer)
