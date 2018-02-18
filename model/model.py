@@ -53,7 +53,7 @@ class EnergyModel:
 
         #Initialize and train model
         model = self.createModel()
-        model.fit(self.trainXScaled, self.trainYScaled, batch_size=15, epochs=50, verbose=1)
+        model.fit(self.trainXScaled, self.trainYScaled, batch_size=15, epochs=5, verbose=1)
 
         return model
 
@@ -74,7 +74,10 @@ class EnergyModel:
 
     #Predicts energy consumption based on user submitted input
     def predict(self, inputVector):
+        print(inputVector)
         scaledInput = self.normalize(inputVector)
+        #scaledInput = inputVector
+        print(scaledInput)
         results = self.model.predict(scaledInput, verbose=1)
 
         prediction = self.denormalize(self.testY, results[0]).item()
@@ -108,10 +111,16 @@ class EnergyModel:
 
     #Normalize all values in array to between 0 and 1
     def normalize(self,rawpoints, high=1.0, low=0.0):
+        print(rawpoints)
         mins = np.min(rawpoints, axis=0)
         maxs = np.max(rawpoints, axis=0)
+        print(mins[1])
+
+        print(maxs[1])
         rng = maxs - mins
-        res = (rawpoints - mins) / (maxs - mins)
+        if rng is 0:
+            rng = 1
+        res = (rawpoints - mins) / rng
         return res
 
     #Return normalized values back to original

@@ -21,6 +21,10 @@
       </div>
     </section>
     <section v-if="prediction">
+      <div>
+        <h1>Your energy usage for this year should be about:</h1>
+        <span><b>{{this.prediction}}</b></span>
+      </div>
     </section>
   </div>
 </template>
@@ -105,24 +109,6 @@
             data:0,
             type:"number"
           },
-          n_agecdryer: {
-            label: "Age of clothes dryer",
-            data:1,
-            type:"select",
-            options:[
-              {value: 1, text: "Less than 2 years old"},
-              {value: 2, text: "2 to 4 years old"},
-              {value: 3, text: "5 to 9 years old"},
-              {value: 41, text: "10 to 14 years old"},
-              {value: 42, text: "15 to 19 years old"},
-              {value: 5, text: "20 years or older"}
-            ]
-          },
-          n_naptflrs: {
-            label: "Number of apartment floors",
-            data:0,
-            type:"number"
-          },
           n_swimpool: {
             label: "Do you have a swimming pool?",
             data:0,
@@ -163,9 +149,10 @@
     methods: {
       submit(){
         console.log(this.formInfo);
-        this.$http.post("/api/predict", {values: Object.values(this.formInfo).map(value => value.data)}).then(result => {
+        this.$http.post("/api/predict", Object.values(this.formInfo).map(value => value.data)).then(result => {
           this.loading = false;
           this.error = null;
+          this.prediction = result.body;
         }, error => {
           console.error(error);
           this.error = error;

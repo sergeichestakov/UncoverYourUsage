@@ -8,7 +8,6 @@ from model.model import EnergyModel
 
 app = Flask(__name__, static_url_path='/client')
 model = EnergyModel()
-model.output()
 
 @app.route('/')
 def home():
@@ -23,7 +22,12 @@ def static_file(path):
 def predict():
     print("Predicting household energy usage!")
     req = request.get_json(force=True)
-    parameters = pd.DataFrame.from_dict(req, orient="index")
+    print(type(req))
+    print(req)
+    val = np.array(req)
+    value = [[req[i]] for i in range(len(req))]
+    parameters = pd.DataFrame([req], columns=list("ABCDEFGHIJKLMN"))
+    print(parameters)
     answer = model.predict(parameters)
     print(answer)
     print(type(answer))
