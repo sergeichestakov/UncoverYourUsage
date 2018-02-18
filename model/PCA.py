@@ -9,6 +9,13 @@ df = pd.read_csv(energy_data, low_memory=False)
 cols = [c for c in df.columns if type(df[c][0]) is np.int64 or type(df[c][0]) is np.float64]
 cols = cols[1:]
 array = df[cols]
+stddev = np.std(df['KWH'])
+plt.plot(df['KWH'])
+plt.ylabel("Usage (KWH)")
+plt.xlabel("household")
+plt.show()
+print("stddev")
+print(stddev)
 
 scaled = pd.DataFrame(scale(array),columns = cols) 
 pca = PCA(n_components=40, svd_solver="full")
@@ -20,4 +27,6 @@ for i in features[1]:
     print(cols[i])
 #print(pd.DataFrame(pca.components_,columns=scaled.columns))
 plt.plot(var1)
+plt.ylabel("variance")
+plt.xlabel("component")
 plt.show()
