@@ -84,7 +84,6 @@ class EnergyModel:
         print(scaledInput)
         results = self.model.predict(scaledInput, verbose=1)
         val = self.denormalize(self.testY, results[0])
-        print(val)
         prediction = self.denormalize(self.testY, results[0]).item()
         return prediction
 
@@ -93,9 +92,11 @@ class EnergyModel:
         results = self.model.predict(self.testXScaled, verbose=1)
         length = len(self.testY)
         sum = 0
+        test = True
         for index in range(length):
             output = self.testY.values[index][0]
-            prediction = self.denormalize(self.testY, results[index], training=True, test=True).item()
+            prediction = self.denormalize(self.testY, results[index], training=True, test=test).item()
+            test=False
             sum += abs(output - prediction)
             #print('OUTPUT: ', output)
             #print('PREDICTION: ', prediction, '\n')
@@ -141,6 +142,8 @@ class EnergyModel:
             if test is True:
                 EnergyModel.globalTestMax = maxs
                 EnergyModel.globalTestMin = mins
+                print(maxs)
+                print(mins)
             return target * (maxs - mins) + mins
         else:
             return target * (EnergyModel.globalTestMax - EnergyModel.globalTestMin) + EnergyModel.globalTestMin
