@@ -46,6 +46,13 @@ class EnergyModel:
         self.trainY = df[EnergyModel.OUTPUT][0:EnergyModel.TRAIN_ENTRIES]
         self.testY = df[EnergyModel.OUTPUT][EnergyModel.TRAIN_ENTRIES:]
 
+        #Reset nonzero values
+        self.trainX[self.trainX < 0] = 0
+        self.trainY[self.trainY < 0] = 0
+
+        self.testX[self.testX < 0] = 0
+        self.testY[self.testY < 0] = 0
+
         #Normalize data
         self.trainXScaled = self.normalize(self.trainX)
         self.trainYScaled = self.normalize(self.trainY)
@@ -66,9 +73,8 @@ class EnergyModel:
         prediction = self.denormalize(self.testY, results[0]).item()
         return prediction
 
-
+    #Predict and output results from test set
     def output(self):
-        #Predict and output results
         results = self.model.predict(self.testXScaled, verbose=1)
         length = len(self.testY)
         sum = 0
@@ -84,6 +90,11 @@ class EnergyModel:
 
     #Normalize all values in array to between 0 and 1
     def normalize(self,rawpoints, high=1.0, low=0.0):
+
+        nparray = rawpoints.values
+        print(len(nparray))
+        print(nparray)
+
         mins = np.min(rawpoints, axis=0)
         maxs = np.max(rawpoints, axis=0)
         rng = maxs - mins
@@ -100,10 +111,10 @@ class EnergyModel:
     def createModel(self, optimizer='sgd'):
         model = Sequential()
 
-        model.add(Dense(16, input_dim=len(EnergyModel.INPUT), activation='relu'))
-        model.add(Dense(20))
-        model.add(Dense(10, activation='softmax'))
-        model.add(Dense(3))
+        model.add(Dense(32, input_dim=len(EnergyModel.INPUT), activation='relu'))
+        model.add(Dense(16))
+        model.add(Dense(8, activation='softmax'))
+        model.add(Dense(5))
         model.add(Dense(1, activation='sigmoid'))
 
         model.compile(loss='mean_squared_error', optimizer=optimizer)
