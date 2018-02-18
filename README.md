@@ -11,6 +11,7 @@ cd energy-analysis
 
 Step 2:
 ```bash
+pip install virtualenv
 virtualenv venv
 venv\Scripts\activate (Windows)
 . venv/bin/activate (Others)
@@ -26,6 +27,7 @@ pip install -r requirements.txt
 Step 4:
 ```bash
 export FLASK_APP=app.py
+
 flask run
 ```
 
