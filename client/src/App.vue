@@ -1,13 +1,13 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <b-navbar type="dark" toggleable="md" class="bg-dark">
       <div class="container">
         <a class="navbar-brand" href="#">Energy Saver</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+        <b-navbar-toggle target="#navbarResponsive" aria-controls="navbarResponsive"
           aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
+        </b-navbar-toggle>
+        <b-collapse is-nav id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
               <router-link class="nav-link" to="/">My Energy
@@ -18,9 +18,9 @@
               <router-link class="nav-link" to="/model">Science</router-link>
             </li>
           </ul>
-        </div>
+        </b-collapse>
       </div>
-    </nav>
+    </b-navbar>
     <router-view></router-view>
     <!-- Footer -->
     <footer class="py-5 bg-dark">

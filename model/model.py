@@ -9,9 +9,9 @@ from keras.wrappers.scikit_learn import KerasClassifier
 
 class EnergyModel:
 
-    energy_data = '../data/recs2009_public.csv'
+    energy_data = os.path.abspath(os.path.curdir) + '/data/recs2009_public.csv'
     columns = 'columns.txt'
-
+    print(energy_data)
     INPUT = [
     'TOTCSQFT',
     'ACROOMS',
