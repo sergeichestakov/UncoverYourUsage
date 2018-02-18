@@ -82,6 +82,15 @@ class EnergyModel:
         model.fit(self.trainXScaled, self.trainYScaled, batch_size=100, epochs=10, verbose=1)
         return model
 
+    #Predicts energy consumption based on user submitted input
+    def predict(self, inputVector):
+        scaledInput = self.normalize(inputVector)
+        results = self.model.predict(scaledInput, verbose=1)
+
+        prediction = self.denormalize(self.testY, results[0]).item()
+        return prediction
+
+
     def output(self):
         #Predict and output results
         results = self.model.predict(self.testXScaled, verbose=1)
