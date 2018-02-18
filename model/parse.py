@@ -8,9 +8,53 @@ from keras.layers import Dense, Dropout, Activation
 from keras.wrappers.scikit_learn import KerasClassifier
 
 energy_data = './data/recs2009_public.csv'
+columns = 'columns.txt'
 
-INPUT = ['YEARMADE', 'BEDROOMS', 'SIZRFRI1', 'TVCOLOR', 'TEMPHOME'] #Input Vars
-OUTPUT = ['KWH'] #Total Energy consumed in BTU
+INPUT = [
+'NCOMBATH',
+'TYPEHUQ',
+'NUMFLRS',
+'ORIG1FAM',
+'WALLTYPE',
+'BEDROOMS',
+'CONVERSION',
+'LOOKLIKE',
+'REGIONC',
+'DIVISION',
+'REPORTABLE_DOMAIN',
+'HDD30YR',
+'BASEFIN',
+'PCTBSTHT',
+'TOTROOMS',
+'CRAWL',
+'CONCRETE',
+'NWEIGHT',
+'HDD65',
+'CDD65',
+'BASEHEAT',
+'BASEHT2',
+'OCCUPYYRANGE',
+'CDD30YR',
+'Climate_Region_Pub',
+'AIA_Zone',
+'KOWNRENT',
+'CONDCOOP',
+'YEARMADE',
+'YEARMADERANGE',
+'TYPEHUQ4',
+'NHAFBATH',
+'CELLAR',
+'OTHROOMS',
+'FINBASERMS',
+'NUMAPTS',
+'STUDIO',
+'NAPTFLRS',
+'STORIES',
+'ROOFTYPE',
+]
+
+#INPUT = ['YEARMADE', 'BEDROOMS', 'SIZRFRI1', 'TVCOLOR', 'TEMPHOME'] #Input Vars
+OUTPUT = ['KWH'] #Total Energy consumed in KWH
 TRAIN_ENTRIES = 9000 #Remainder is test (12083 Total)
 df = pd.read_csv(energy_data, low_memory=False)
 
@@ -38,9 +82,9 @@ def denormalize(original, target):
 def createModel(optimizer='sgd'):
     model = Sequential()
 
-    model.add(Dense(15, input_dim=5, activation='relu'))
-    model.add(Dense(12))
-    model.add(Dense(7, activation='softmax'))
+    model.add(Dense(40, input_dim=40, activation='relu'))
+    model.add(Dense(20))
+    model.add(Dense(10, activation='softmax'))
     model.add(Dense(3))
     model.add(Dense(1, activation='sigmoid'))
 
@@ -57,7 +101,7 @@ testYScaled = normalize(testY)
 
 #Initialize and train model
 model = createModel()
-model.fit(trainXScaled, trainYScaled, batch_size=25, epochs=3, verbose=1)
+model.fit(trainXScaled, trainYScaled, batch_size=100, epochs=10, verbose=1)
 
 #Predict and output results
 results = model.predict(testXScaled, verbose=1)
