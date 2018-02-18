@@ -1,0 +1,8 @@
+---
+title: "Report"
+output: html_document
+---
+
+```{r echo=FALSE}
+source('index.R')
+```
