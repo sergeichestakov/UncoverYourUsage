@@ -1,11 +1,11 @@
-# Energy Analyzer
-Kaelan Mikowicz, Thomas Munduchira, Sergei Chestakov
+# Uncover Your Usage
+Contributors: Kaelan Mikowicz, Thomas Munduchira, Sergei Chestakov
 
 ## Installation
 
 Step 1:
 ```bash
-git clone https://github.com/sergeichestakov/energy-analysis.git
+git clone https://github.com/sergeichestakov/UncoverYourUsage.git
 cd energy-analysis
 ```
 
