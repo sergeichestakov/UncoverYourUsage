@@ -1,11 +1,11 @@
 # Uncover Your Usage
-Kaelan Mikowicz, Thomas Munduchira, Sergei Chestakov
+Contributors: Kaelan Mikowicz, Thomas Munduchira, Sergei Chestakov
 
 ## Installation
 
 Step 1:
 ```bash
-https://github.com/sergeichestakov/UncoverYourUsage.git
+git clone https://github.com/sergeichestakov/UncoverYourUsage.git
 cd energy-analysis
 ```
 
