@@ -1,4 +1,5 @@
 *.pyc
 venv/
 .DS_Store
-
+dump.csv
+report.html
