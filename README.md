@@ -6,7 +6,7 @@ Contributors: Kaelan Mikowicz, Thomas Munduchira, Sergei Chestakov
 Step 1:
 ```bash
 git clone https://github.com/sergeichestakov/UncoverYourUsage.git
-cd energy-analysis
+cd UncoverYourUsage
 ```
 
 Step 2:
