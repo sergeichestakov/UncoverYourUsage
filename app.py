@@ -9,17 +9,30 @@ from model.model import EnergyModel
 app = Flask(__name__, static_url_path='/client')
 model = EnergyModel()
 model.output()
+
+
 @app.route('/')
 def home():
-    return send_from_directory(os.path.join(app.root_path, 'client'), 'index.html')
+    return send_from_directory(
+        os.path.join(
+            app.root_path,
+            'client'),
+        'index.html')
+
 
 @app.route('/report')
 def report():
-    return send_from_directory(os.path.join(app.root_path, 'client'), 'report.html')
+    return send_from_directory(
+        os.path.join(
+            app.root_path,
+            'client'),
+        'report.html')
+
 
 @app.route('/<path:path>')
 def static_file(path):
     return send_from_directory(os.path.join(app.root_path, 'client'), path)
+
 
 @app.route('/api/predict', methods=['POST'])
 def predict():
@@ -28,20 +41,20 @@ def predict():
     file = open("dump.csv", "w")
     writer = csv.writer(file)
     writer.writerow([
-    'TOTCSQFT',
-    'ACROOMS',
-    'BEDROOMS',
-    'WASHLOAD',
-    'USECENAC',
-    'NCOMBATH',
-    'TYPEHUQ',
-    'TEMPHOME',
-    'CENACHP',
-    'TEMPNITEAC',
-    'SWIMPOOL',
-    'NUMCFAN',
-    'MAINTAC',
-    'COOLTYPE',
+        'TOTCSQFT',
+        'ACROOMS',
+        'BEDROOMS',
+        'WASHLOAD',
+        'USECENAC',
+        'NCOMBATH',
+        'TYPEHUQ',
+        'TEMPHOME',
+        'CENACHP',
+        'TEMPNITEAC',
+        'SWIMPOOL',
+        'NUMCFAN',
+        'MAINTAC',
+        'COOLTYPE',
     ])
     writer.writerow(req)
     file.close()
@@ -49,6 +62,7 @@ def predict():
     parameters = pd.read_csv(csver)
     answer = model.predict(parameters)
     return jsonify(answer)
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
