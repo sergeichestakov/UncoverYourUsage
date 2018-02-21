@@ -24,6 +24,8 @@ Principle Component Analysis (PCA) was utilized to find uncorrelated components 
 ### An investigation of correlation among parameters
 
 ```{r echo=FALSE, comment=NA}
+options(warn = -1)
+
 packages <- function(packages) {
   for (package in packages) {
     if (!require(package, character.only = TRUE, quietly = TRUE)) {
@@ -110,7 +112,7 @@ Regression analysis for each feature:
 
 ```{r echo=FALSE, comment=NA}
 for (i in 1 : length(regressions)) {
-  regression = regressions[[1]]
+  regression = regressions[[i]]
   summary(regression)
   printString(paste("Analysis of Explanatory Variable:", regression$variable))
   printNewline(1)
